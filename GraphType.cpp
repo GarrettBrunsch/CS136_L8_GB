@@ -2,8 +2,6 @@
 // Lab #8 Graphs S25
 
 #include "GraphType.h"
-#include <utility>
-
 // New functions included below
 
 template<class VertexType>
@@ -47,17 +45,22 @@ GraphType<VertexType>::GraphType(const GraphType<VertexType>& other)
 {
     try
     {
-        numVertices = other.numVertices;
-        maxVertices = other.maxVertices;
+        int tempMax = other.maxVertices;
+        int tempNum = other.numVertices;
 
-        vertices = new VertexType[maxVertices];
-        marks = new bool[maxVertices];
+        VertexType* tempVertices = new VertexType[tempMax];
+        bool* tempMarks = new bool[tempMax];
 
-        for (int i = 0; i < numVertices; i++)
+        for (int i = 0; i < tempNum; i++)
         {
-            vertices[i] = other.vertices[i];
-            marks[i] = other.marks[i];
+            tempVertices[i] = other.vertices[i];
+            tempMarks[i] = other.marks[i];
         }
+
+        vertices = tempVertices;
+        marks = tempMarks;
+        numVertices = tempNum;
+        maxVertices = tempMax;
 
         for (int i = 0; i < maxVertices; i++)
         {
@@ -86,7 +89,15 @@ GraphType<VertexType>& GraphType<VertexType>::operator=(const GraphType<VertexTy
         swap(maxVertices, temp.maxVertices); 
         swap(vertices, temp.vertices); 
         swap(marks, temp.marks); 
-        swap(edges, temp.edges); 
+
+        for (int i = 0; i < maxVertices; ++i) // Manual swap used instead since C style arrays do not support assignment functionality needed for swap
+        {
+            for (int j = 0; j < maxVertices; ++j)
+            {
+                edges[i][j] = temp.edges[i][j];
+
+            }
+        }
     }
 	return *this;
 }
@@ -97,24 +108,44 @@ GraphType<VertexType>::~GraphType()
     clearData();
 }
 
+template<class VertexType>
+void GraphType<VertexType>::setGraph(int size)
+{
+    VertexType* tempVertices = nullptr;
+    bool* tempMarks = nullptr;
+
+    try
+    {
+        tempVertices = new VertexType[size];
+        tempMarks = new bool[size];
+    }
+    catch (...)
+    {
+        delete[] tempVertices; //nullptr deletions are fine according to C++ guidelines
+        delete[] tempMarks;
+        throw;
+    }
+
+    clearData(); // included in case partial initialization+failure happens with try {}
+
+    vertices = tempVertices;
+    marks = tempMarks;
+    numVertices = 0;
+    maxVertices = size;
+}
+
 // Original file included below
 
 template<class VertexType>
 GraphType<VertexType>::GraphType()
 {
-  numVertices = 0;
-  maxVertices = DEFAULT_SIZE;
-  vertices = new VertexType[DEFAULT_SIZE];
-  marks = new bool[DEFAULT_SIZE];
+    setGraph(DEFAULT_SIZE);
 }
 
 template<class VertexType>
 GraphType<VertexType>::GraphType(int maxV)
 {
-  numVertices = 0;
-  maxVertices = maxV;
-  vertices = new VertexType[maxV];
-  marks = new bool[maxV];
+    setGraph(maxV);
 }
 
 template<class VertexType>

@@ -33,7 +33,8 @@ public:
 
   int WeightIs(VertexType fromVertex, VertexType toVertex) const;
   int IndexIs(VertexType vertex) const;
-
+  
+  void setGraph(int size);
   VertexType* GetVertices() const { return vertices; }; 
   void GetToVertices(VertexType, QueType<VertexType>&) const;
 

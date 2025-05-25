@@ -9,8 +9,6 @@
 #include <string>
 
 template<class VertexType>
-// Assumption: VertexType is a type for which the "=", 
-// "==", and "<<" operators are defined
 class GraphType
 {
 private:
@@ -43,14 +41,6 @@ public:
   GraphType(const GraphType<VertexType>& other);
   GraphType<VertexType>& operator=(const GraphType<VertexType>& other);
   ~GraphType();
-
-//  void ClearMarks();
-//  void MarkVertex(VertexType);
-//  void MakeEmpty();
-
-//  bool IsEmpty() const;
-//  bool IsFull() const;
-//  bool IsMarked(VertexType);
 };
 
 #endif // GRAPH_TYPE_H

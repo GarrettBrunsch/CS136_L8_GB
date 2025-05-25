@@ -1,6 +1,9 @@
 // Garrett, Brunsch
 // Lab #8 Graphs S25
 
+//Please note the contents of this file are from the original file. For example the instances of "NULL" were provided and not written by me. 
+//The project only wanted me to modify GraphType and main so that's where my modifications exist but this file is still necessary to run the program
+
 #ifndef QUE_TYPE_H
 #define QUE_TYPE_H
 
